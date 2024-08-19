@@ -5,7 +5,7 @@ namespace Library.Contracts;
 public interface IAuthorRepository
 {
     Task<IEnumerable<Author>> GetAuthorsAsync(bool trackChanges);
-    Task<Author> GetAuthorByIdAsync(bool trackChanges);
+    Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges);
     void CreateAuthor(Author author);
     void DeleteAuthor(Guid id);
 }
