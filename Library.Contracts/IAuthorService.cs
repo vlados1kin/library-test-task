@@ -6,7 +6,7 @@ public interface IAuthorService
 {
     Task<IEnumerable<AuthorDto>> GetAuthorsAsync(bool trackChanges);
     Task<AuthorDto> GetAuthorById(Guid id, bool trackChanges);
-    Task CreateAuthorAsync(AuthorForCreationDto authorForCreationDto);
+    Task<AuthorDto> CreateAuthorAsync(AuthorForCreationDto authorForCreationDto);
     Task UpdateAuthorAsync(Guid id, AuthorForUpdateDto authorForUpdateDto, bool trackChanges);
     Task DeleteAuthorAsync(Guid id, bool trackChanges);
 }
