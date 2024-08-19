@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.Contracts;
+using Library.Domain.Models;
 using Library.Shared.DTO;
 
 namespace Library.Service;
@@ -17,26 +18,44 @@ public class AuthorService : IAuthorService
     
     public async Task<IEnumerable<AuthorDto>> GetAuthorsAsync(bool trackChanges)
     {
-        throw new NotImplementedException();
+        var authors = await _repository.Author.GetAuthorsAsync(trackChanges);
+        var authorsDto = _mapper.Map<IEnumerable<AuthorDto>>(authors);
+        return authorsDto;
     }
 
     public async Task<AuthorDto> GetAuthorById(Guid id, bool trackChanges)
     {
-        throw new NotImplementedException();
+        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
+        if (author is null)
+            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+        var authorDto = _mapper.Map<AuthorDto>(author);
+        return authorDto;
     }
 
-    public async Task CreateAuthorAsync(AuthorForCreationDto authorForCreationDto)
+    public async Task<AuthorDto> CreateAuthorAsync(AuthorForCreationDto authorForCreationDto)
     {
-        throw new NotImplementedException();
+        var author = _mapper.Map<Author>(authorForCreationDto);
+        _repository.Author.CreateAuthor(author);
+        await _repository.SaveAsync();
+        var authorDto = _mapper.Map<AuthorDto>(author);
+        return authorDto;
     }
 
     public async Task UpdateAuthorAsync(Guid id, AuthorForUpdateDto authorForUpdateDto, bool trackChanges)
     {
-        throw new NotImplementedException();
+        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
+        if (author is null)
+            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+        _mapper.Map(authorForUpdateDto, author);
+        await _repository.SaveAsync();
     }
 
     public async Task DeleteAuthorAsync(Guid id, bool trackChanges)
     {
-        throw new NotImplementedException();
+        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
+        if (author is null)
+            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+        _repository.Author.DeleteAuthor(author);
+        await _repository.SaveAsync();
     }
 }
