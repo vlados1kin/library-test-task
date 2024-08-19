@@ -1,5 +1,6 @@
 ﻿using Library.Contracts;
 using Library.Repository;
+using Library.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.API.Extensions;
@@ -12,4 +13,7 @@ public static class ServiceExtensions
 
     public static void ConfigureRepositoryManager(this IServiceCollection services)
         => services.AddScoped<IRepositoryManager, RepositoryManager>();
+    
+    public static void ConfigureServiceManager(this IServiceCollection services)
+        => services.AddScoped<IServiceManager, ServiceManager>();
 }
