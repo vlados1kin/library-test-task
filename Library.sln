@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.API", "Library.API\Library.API.csproj", "{65E50BE9-2019-458E-8751-9044212790CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{58080B2B-8FA3-4312-AEF1-9340E710A1D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{65E50BE9-2019-458E-8751-9044212790CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65E50BE9-2019-458E-8751-9044212790CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65E50BE9-2019-458E-8751-9044212790CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
