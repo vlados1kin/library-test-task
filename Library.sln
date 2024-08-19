@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.API", "Library.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{58080B2B-8FA3-4312-AEF1-9340E710A1D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Repository", "Library.Repository\Library.Repository.csproj", "{9BC585B7-1B6C-49E2-B903-29AFF808EE81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58080B2B-8FA3-4312-AEF1-9340E710A1D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC585B7-1B6C-49E2-B903-29AFF808EE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC585B7-1B6C-49E2-B903-29AFF808EE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC585B7-1B6C-49E2-B903-29AFF808EE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC585B7-1B6C-49E2-B903-29AFF808EE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
