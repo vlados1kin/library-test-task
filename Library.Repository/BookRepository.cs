@@ -20,23 +20,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         => await FindByCondition(b => b.ISBN.Equals(isbn), trackChanges).SingleOrDefaultAsync();
 
     public void CreateBook(Book book) => Create(book);
-
-    public void UpdateBook(Book book) => Update(book);
-
+    
     public void DeleteBook(Book book) => Delete(book);
-
-    public void IssueBookToUser(Book book) // PATCH
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AddImageToBook() // ???
-    {
-        throw new NotImplementedException();
-    }
-
-    public void SendMessageToUserAboutExpiration() // ???
-    {
-        throw new NotImplementedException();
-    }
 }
