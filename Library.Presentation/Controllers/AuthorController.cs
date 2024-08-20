@@ -49,4 +49,11 @@ public class AuthorController : ControllerBase
         await _service.AuthorService.DeleteAuthorAsync(id, trackChanges: true);
         return NoContent();
     }
+
+    [HttpGet("{id:guid}/books")]
+    public async Task<IActionResult> GetBooksWithAuthorId([FromRoute] Guid id)
+    {
+        var booksDto = await _service.AuthorService.GetBooksWithAuthorIdAsync(id, trackChanges: false);
+        return Ok(booksDto);
+    }
 }
