@@ -20,5 +20,7 @@ public class MappingProfile : Profile
         CreateMap<BookForCreationDto, Book>();
         
         CreateMap<BookForIssueDto, Book>();
+
+        CreateMap<Book, BookAfterCreationDto>();
     }
 }
