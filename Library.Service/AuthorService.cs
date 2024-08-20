@@ -59,4 +59,14 @@ public class AuthorService : IAuthorService
         _repository.Author.DeleteAuthor(author);
         await _repository.SaveAsync();
     }
+
+    public async Task<IEnumerable<BookDto>> GetBooksWithAuthorIdAsync(Guid id, bool trackChanges)
+    {
+        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
+        if (author is null)
+            throw new AuthorNotFoundException(id);
+        var books = author.Books;
+        var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
+        return booksDto;
+    }
 }
