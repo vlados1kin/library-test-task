@@ -9,7 +9,7 @@ public static class ExceptionMiddlewareExtension
     {
         app.UseExceptionHandler(appErr =>
         {
-            app.Run(async context =>
+            appErr.Run(async context =>
             {
                 context.Response.ContentType = "application/json";
 
