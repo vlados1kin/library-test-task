@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.Contracts;
+using Library.Domain.Exceptions;
 using Library.Domain.Models;
 using Library.Shared.DTO;
 
@@ -27,7 +28,7 @@ public class AuthorService : IAuthorService
     {
         var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
         if (author is null)
-            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+            throw new AuthorNotFoundException(id);
         var authorDto = _mapper.Map<AuthorDto>(author);
         return authorDto;
     }
@@ -45,7 +46,7 @@ public class AuthorService : IAuthorService
     {
         var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
         if (author is null)
-            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+            throw new AuthorNotFoundException(id);
         _mapper.Map(authorForUpdateDto, author);
         await _repository.SaveAsync();
     }
@@ -54,7 +55,7 @@ public class AuthorService : IAuthorService
     {
         var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
         if (author is null)
-            throw new Exception(); // TODO: change new Exception to AuthorNotFoundException
+            throw new AuthorNotFoundException(id);
         _repository.Author.DeleteAuthor(author);
         await _repository.SaveAsync();
     }
