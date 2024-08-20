@@ -2,6 +2,7 @@
 
 public record BookDto
 {
+    public Guid Id { get; init; }
     public string ISBN { get; init; }
     public string Name { get; init; }
     public string Genre { get; init; }
