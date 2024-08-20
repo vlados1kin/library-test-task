@@ -11,6 +11,7 @@ builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureServiceManager();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -24,5 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.Run();
