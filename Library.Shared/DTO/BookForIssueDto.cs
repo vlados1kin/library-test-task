@@ -2,6 +2,6 @@
 
 public record BookForIssueDto
 {
-    public DateTime ReceiveTime { get; set; }
-    public DateTime ReturnTime { get; set; }
+    public DateTime ReceiveTime { get; init; }
+    public DateTime ReturnTime { get; init; }
 }
