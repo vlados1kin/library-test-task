@@ -42,12 +42,12 @@ public class BookService : IBookService
         return bookDto;
     }
 
-    public async Task<BookDto> CreateBookAsync(BookForCreationDto bookForCreationDto)
+    public async Task<BookAfterCreationDto> CreateBookAsync(BookForCreationDto bookForCreationDto)
     {
         var book = _mapper.Map<Book>(bookForCreationDto);
         _repository.Book.CreateBook(book);
         await _repository.SaveAsync();
-        var bookDto = _mapper.Map<BookDto>(book);
+        var bookDto = _mapper.Map<BookAfterCreationDto>(book);
         return bookDto;
     }
 
