@@ -62,7 +62,7 @@ public class AuthorService : IAuthorService
 
     public async Task<IEnumerable<BookDto>> GetBooksWithAuthorIdAsync(Guid id, bool trackChanges)
     {
-        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
+        var author = await _repository.Author.GetAuthorByIdWithBooksAsync(id, trackChanges);
         if (author is null)
             throw new AuthorNotFoundException(id);
         var books = author.Books;
