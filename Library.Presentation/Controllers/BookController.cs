@@ -22,14 +22,14 @@ public class BookController : ControllerBase
         return Ok(bookDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "GetBookById")]
     public async Task<IActionResult> GetBookById([FromRoute] Guid id)
     {
         var bookDto = await _service.BookService.GetBookByIdAsync(id, trackChanges: false);
         return Ok(bookDto);
     }
 
-    [HttpGet("{isbn}", Name = "GetBookById")]
+    [HttpGet("{isbn}")]
     public async Task<IActionResult> GetBookByIsbn([FromRoute] string isbn)
     {
         var bookDto = await _service.BookService.GetBookByIsbnAsync(isbn, trackChanges: false);
@@ -39,8 +39,8 @@ public class BookController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateBook([FromBody] BookForCreationDto bookForCreationDto)
     {
-        var bookDto = await _service.BookService.CreateBookAsync(bookForCreationDto);
-        return CreatedAtRoute("GetBookById", new { id = bookDto.Id }, bookDto);
+        var bookAfterCreationDto = await _service.BookService.CreateBookAsync(bookForCreationDto);
+        return CreatedAtRoute("GetBookById", new { id = bookAfterCreationDto.Id }, bookAfterCreationDto);
     }
 
     [HttpPut("{id:guid}")]
