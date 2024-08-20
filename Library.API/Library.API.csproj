@@ -17,10 +17,11 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Library.Presentation\Library.Presentation.csproj" />
       <ProjectReference Include="..\Library.Repository\Library.Repository.csproj" />
       <ProjectReference Include="..\Library.Service\Library.Service.csproj" />
     </ItemGroup>
