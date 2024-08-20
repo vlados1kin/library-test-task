@@ -10,7 +10,7 @@ public interface IBookService
     Task<BookDto> CreateBookAsync(BookForCreationDto bookForCreationDto);
     Task UpdateBookAsync(Guid id, BookForUpdateDto bookForUpdateDto, bool trackChanges);
     Task DeleteBookAsync(Guid id, bool trackChanges);
-    Task IssueBooksToUser(Guid id, BookForIssueDto bookForIssueDto, bool trackChanges);
+    Task IssueBookToUser(Guid id, BookForIssueDto bookForIssueDto, bool trackChanges);
     // TODO: добавление изображения к книге
     // TODO: отправка уведомления об истечении срока выдачи книги
 }

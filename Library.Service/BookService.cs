@@ -69,7 +69,7 @@ public class BookService : IBookService
         await _repository.SaveAsync();
     }
 
-    public async Task IssueBooksToUser(Guid id, BookForIssueDto bookForIssueDto, bool trackChanges)
+    public async Task IssueBookToUser(Guid id, BookForIssueDto bookForIssueDto, bool trackChanges)
     {
         var book = await _repository.Book.GetBookByIdAsync(id, trackChanges);
         if (book is null)
