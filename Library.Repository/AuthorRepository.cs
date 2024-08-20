@@ -14,7 +14,7 @@ public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
         await FindAll(trackChanges).ToListAsync();
 
     public async Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges) =>
-        await FindByCondition(a => a.Equals(id), trackChanges).SingleOrDefaultAsync();
+        await FindByCondition(a => a.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
     public void CreateAuthor(Author author) => Create(author);
 
