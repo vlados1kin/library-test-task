@@ -1,11 +1,12 @@
 ﻿using Library.Domain.Models;
+using Library.Domain.Settings;
 using Library.Shared.DTO;
 
 namespace Library.Contracts;
 
 public interface IBookService
 {
-    Task<IEnumerable<BookDto>> GetBooksAsync(bool trackChanges);
+    Task<IEnumerable<BookDto>> GetBooksAsync(BookParameters bookParameters, bool trackChanges);
     Task<BookDto> GetBookByIdAsync(Guid id, bool trackChanges);
     Task<BookDto> GetBookByIsbnAsync(string isbn, bool trackChanges);
     Task<BookDto> CreateBookAsync(BookForCreationDto bookForCreationDto);

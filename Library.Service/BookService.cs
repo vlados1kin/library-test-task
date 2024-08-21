@@ -2,6 +2,7 @@
 using Library.Contracts;
 using Library.Domain.Exceptions;
 using Library.Domain.Models;
+using Library.Domain.Settings;
 using Library.Shared.DTO;
 
 namespace Library.Service;
@@ -17,9 +18,9 @@ public class BookService : IBookService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<BookDto>> GetBooksAsync(bool trackChanges)
+    public async Task<IEnumerable<BookDto>> GetBooksAsync(BookParameters bookParameters, bool trackChanges)
     {
-        var book = await _repository.Book.GetBooksAsync(trackChanges);
+        var book = await _repository.Book.GetBooksAsync(bookParameters, trackChanges);
         var bookDto = _mapper.Map<IEnumerable<BookDto>>(book);
         return bookDto;
     }
