@@ -4,6 +4,7 @@ using Library.Domain.Exceptions;
 using Library.Domain.Models;
 using Library.Domain.Settings;
 using Library.Shared.DTO;
+using Library.Shared.RequestFeatures;
 
 namespace Library.Service;
 
@@ -18,11 +19,11 @@ public class AuthorService : IAuthorService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<AuthorDto>> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges)
+    public async Task<(IEnumerable<AuthorDto> authorDtos, MetaData metaData)> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges)
     {
-        var authors = await _repository.Author.GetAuthorsAsync(authorParameters, trackChanges);
-        var authorsDto = _mapper.Map<IEnumerable<AuthorDto>>(authors);
-        return authorsDto;
+        var authorsWithMetaData = await _repository.Author.GetAuthorsAsync(authorParameters, trackChanges);
+        var authorsDto = _mapper.Map<IEnumerable<AuthorDto>>(authorsWithMetaData);
+        return (authorDtos: authorsDto, metaData: authorsWithMetaData.MetaData);
     }
 
     public async Task<AuthorDto> GetAuthorById(Guid id, bool trackChanges)
