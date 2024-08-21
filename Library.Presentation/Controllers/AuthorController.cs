@@ -53,7 +53,7 @@ public class AuthorController : ControllerBase
     [HttpGet("{id:guid}/books")]
     public async Task<IActionResult> GetBooksWithAuthorId([FromRoute] Guid id)
     {
-        var booksDto = await _service.AuthorService.GetBooksWithAuthorIdAsync(id, trackChanges: false);
+        var booksDto = await _service.BookService.GetBooksByAuthorIdAsync(id, trackChanges: false);
         return Ok(booksDto);
     }
 }

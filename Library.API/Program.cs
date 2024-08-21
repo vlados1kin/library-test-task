@@ -1,4 +1,7 @@
 using Library.API.Extensions;
+using Library.Contracts;
+using Library.Domain.Settings;
+using Library.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,8 @@ builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureServiceManager();
+builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddControllers();
 
