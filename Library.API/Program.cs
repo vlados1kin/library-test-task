@@ -18,6 +18,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureServiceManager();
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddControllers();
 
