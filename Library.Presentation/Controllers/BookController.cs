@@ -1,4 +1,5 @@
 ﻿using Library.Contracts;
+using Library.Domain.Models;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,5 +63,19 @@ public class BookController : ControllerBase
     {
         await _service.BookService.IssueBookAsync(id, bookForIssueDto, trackChanges: true);
         return NoContent();
+    }
+
+    [HttpGet("download-image/{fileNameWithExtension}", Name = "DownloadImage")]
+    public async Task<IActionResult> DownloadImage([FromRoute] string fileNameWithExtension)
+    {
+        var result = await _service.ImageService.DownloadImageAsync(fileNameWithExtension);
+        return File(result.fileBytes, result.contentType, result.fileName);
+    }
+    
+    [HttpPost("upload-image/{id:guid}")]
+    public async Task<IActionResult> UploadImage([FromRoute] Guid id, [FromForm] UploadImage uploadImage)
+    {
+        var fileName = await _service.ImageService.UploadImageAsync(id, uploadImage);
+        return CreatedAtRoute("DownloadImage", new { fileNameWithExtension = fileName }, fileName);
     }
 }
