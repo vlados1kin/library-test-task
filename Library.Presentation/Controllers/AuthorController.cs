@@ -1,6 +1,8 @@
 ﻿using Library.Contracts;
+using Library.Domain.Settings;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Library.Presentation.Controllers;
 
@@ -16,10 +18,11 @@ public class AuthorController : ControllerBase
     }
 
     [HttpGet(Name = "GetAuthors")]
-    public async Task<IActionResult> GetAuthors()
+    public async Task<IActionResult> GetAuthors([FromQuery] AuthorParameters authorParameters)
     {
-        var authorDto = await _service.AuthorService.GetAuthorsAsync(trackChanges: false);
-        return Ok(authorDto);
+        var authorDtosWithMetaData = await _service.AuthorService.GetAuthorsAsync(authorParameters, trackChanges: false);
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(authorDtosWithMetaData.metaData));
+        return Ok(authorDtosWithMetaData.authorDtos);
     }
 
     [HttpGet("{id:guid}", Name = "GetAuthorById")]
