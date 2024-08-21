@@ -68,13 +68,11 @@ public class BookService : IBookService
         _repository.Book.DeleteBook(book);
         await _repository.SaveAsync();
     }
-
-    public async Task IssueBookToUser(Guid id, BookForIssueDto bookForIssueDto, bool trackChanges)
+    
+    public async Task<IEnumerable<BookDto>> GetBooksByAuthorIdAsync(Guid id, bool trackChanges)
     {
-        var book = await _repository.Book.GetBookByIdAsync(id, trackChanges);
-        if (book is null)
-            throw new BookWithIdNotFoundException(id);
-        _mapper.Map(bookForIssueDto, book);
-        await _repository.SaveAsync();
+        var books = await _repository.Book.GetBooksByAuthorIdAsync(id, trackChanges);
+        var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
+        return booksDto;
     }
 }
