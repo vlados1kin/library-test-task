@@ -16,7 +16,7 @@ public class MappingProfile : Profile
 
         CreateMap<Book, BookDto>().ForMember(bd => bd.Genre, opt => opt.MapFrom(src => src.Genre.Name));
 
-        CreateMap<Book, BookAfterCreationDto>().ReverseMap();
+        CreateMap<BookForCreationDto, Book>();
 
         CreateMap<BookForUpdateDto, Book>();
 
