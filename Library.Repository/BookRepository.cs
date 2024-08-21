@@ -12,6 +12,9 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
     public async Task<IEnumerable<Book>> GetBooksAsync(bool trackChanges)
         => await FindAll(trackChanges).Include(b => b.Genre).ToListAsync();
+    
+    public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(Guid authorId, bool trackChanges)
+        => await FindByCondition(b => b.AuthorId.Equals(authorId), trackChanges).Include(b => b.Genre).ToListAsync();
 
     public async Task<Book> GetBookByIdAsync(Guid id, bool trackChanges)
         => await FindByCondition(b => b.Id.Equals(id), trackChanges).Include(b => b.Genre).SingleOrDefaultAsync();
