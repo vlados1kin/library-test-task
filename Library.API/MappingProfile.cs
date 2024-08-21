@@ -16,12 +16,10 @@ public class MappingProfile : Profile
 
         CreateMap<Book, BookDto>().ForMember(bd => bd.Genre, opt => opt.MapFrom(src => src.Genre.Name));
 
-        CreateMap<Book, BookAfterCreationDto>();
-        
-        CreateMap<BookForCreationDto, Book>();
-        
-        CreateMap<BookForIssueDto, Book>();
+        CreateMap<Book, BookAfterCreationDto>().ReverseMap();
 
         CreateMap<BookForUpdateDto, Book>();
+
+        CreateMap<BookForIssueDto, Book>();
     }
 }
