@@ -8,7 +8,7 @@ public interface IBookService
     Task<IEnumerable<BookDto>> GetBooksAsync(bool trackChanges);
     Task<BookDto> GetBookByIdAsync(Guid id, bool trackChanges);
     Task<BookDto> GetBookByIsbnAsync(string isbn, bool trackChanges);
-    Task<BookAfterCreationDto> CreateBookAsync(BookForCreationDto bookForCreationDto);
+    Task<BookDto> CreateBookAsync(BookForCreationDto bookForCreationDto);
     Task UpdateBookAsync(Guid id, BookForUpdateDto bookForUpdateDto, bool trackChanges);
     Task DeleteBookAsync(Guid id, bool trackChanges);
     Task<IEnumerable<BookDto>> GetBooksByAuthorIdAsync(Guid id, bool trackChanges);
