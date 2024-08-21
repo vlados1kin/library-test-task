@@ -39,8 +39,8 @@ public class BookController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateBook([FromBody] BookForCreationDto bookForCreationDto)
     {
-        var bookAfterCreationDto = await _service.BookService.CreateBookAsync(bookForCreationDto);
-        return CreatedAtRoute("GetBookById", new { id = bookAfterCreationDto.Id }, bookAfterCreationDto);
+        var bookDto = await _service.BookService.CreateBookAsync(bookForCreationDto);
+        return CreatedAtRoute("GetBookById", new { id = bookDto.Id }, null);
     }
 
     [HttpPut("{id:guid}")]
