@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Library.Domain.Models;
-using Library.Service;
 using Library.Shared.DTO;
 
 namespace Library.API;
@@ -17,10 +16,12 @@ public class MappingProfile : Profile
 
         CreateMap<Book, BookDto>().ForMember(bd => bd.Genre, opt => opt.MapFrom(src => src.Genre.Name));
 
+        CreateMap<Book, BookAfterCreationDto>();
+        
         CreateMap<BookForCreationDto, Book>();
         
         CreateMap<BookForIssueDto, Book>();
 
-        CreateMap<Book, BookAfterCreationDto>();
+        CreateMap<BookForUpdateDto, Book>();
     }
 }
