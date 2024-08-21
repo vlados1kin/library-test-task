@@ -1,6 +1,7 @@
 ﻿using Library.Contracts;
 using Library.Domain.Models;
 using Library.Domain.Settings;
+using Library.Shared.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Repository;
@@ -11,11 +12,12 @@ public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
     {
     }
 
-    public async Task<IEnumerable<Author>> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges) =>
-        await FindAll(trackChanges)
-            .Skip((authorParameters.PageNumber - 1) * authorParameters.PageSize)
-            .Take(authorParameters.PageSize)
-            .ToListAsync();
+    public async Task<PagedList<Author>> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges)
+    {
+        var authors = await FindAll(trackChanges).ToListAsync();
+        return PagedList<Author>.ToPagedList(authors, authorParameters.PageNumber, authorParameters.PageSize);
+    }
+        
 
     public async Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges) =>
         await FindByCondition(a => a.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
