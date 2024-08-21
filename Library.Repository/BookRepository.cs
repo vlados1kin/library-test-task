@@ -1,6 +1,7 @@
 ﻿using Library.Contracts;
 using Library.Domain.Models;
 using Library.Domain.Settings;
+using Library.Shared.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Repository;
@@ -11,12 +12,11 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
     {
     }
 
-    public async Task<IEnumerable<Book>> GetBooksAsync(BookParameters bookParameters, bool trackChanges)
-        => await FindAll(trackChanges)
-            .Skip((bookParameters.PageNumber - 1) * bookParameters.PageSize)
-            .Take(bookParameters.PageSize)
-            .Include(b => b.Genre)
-            .ToListAsync();
+    public async Task<PagedList<Book>> GetBooksAsync(BookParameters bookParameters, bool trackChanges)
+    {
+        var books = await FindAll(trackChanges).Include(b => b.Genre).ToListAsync();
+        return PagedList<Book>.ToPagedList(books, bookParameters.PageNumber, bookParameters.PageSize);
+    }
 
     public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(Guid authorId, bool trackChanges)
         => await FindByCondition(b => b.AuthorId.Equals(authorId), trackChanges).Include(b => b.Genre).ToListAsync();

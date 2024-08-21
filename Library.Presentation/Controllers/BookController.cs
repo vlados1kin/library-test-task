@@ -1,5 +1,7 @@
-﻿using Library.Contracts;
+﻿using System.Text.Json;
+using Library.Contracts;
 using Library.Domain.Models;
+using Library.Domain.Settings;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +19,11 @@ public class BookController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetBooks()
+    public async Task<IActionResult> GetBooks([FromQuery] BookParameters bookParameters)
     {
-        var bookDto = await _service.BookService.GetBooksAsync(trackChanges: false);
-        return Ok(bookDto);
+        var bookDtoWithMetaData = await _service.BookService.GetBooksAsync(bookParameters, trackChanges: false);
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(bookDtoWithMetaData.metaData));
+        return Ok(bookDtoWithMetaData.bookDtos);
     }
 
     [HttpGet("{id:guid}", Name = "GetBookById")]
