@@ -8,5 +8,4 @@ public interface IAuthorRepository
     Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges);
     void CreateAuthor(Author author);
     void DeleteAuthor(Author author);
-    Task<Author> GetAuthorByIdWithBooksAsync(Guid id, bool trackChanges);
 }
