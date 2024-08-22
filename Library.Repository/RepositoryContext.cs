@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Repository;
 
-public class RepositoryContext : IdentityDbContext
+public class RepositoryContext : IdentityDbContext<User>
 {
     public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
     {
@@ -17,10 +17,10 @@ public class RepositoryContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.ApplyConfiguration(new AuthorConfiguration());
         modelBuilder.ApplyConfiguration(new BookConfiguration());
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
-        
-        base.OnModelCreating(modelBuilder);
     }
 }
