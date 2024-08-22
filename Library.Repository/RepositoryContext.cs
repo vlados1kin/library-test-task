@@ -1,10 +1,11 @@
 ﻿using Library.Domain.Models;
 using Library.Repository.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Repository;
 
-public class RepositoryContext : DbContext
+public class RepositoryContext : IdentityDbContext
 {
     public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
     {
