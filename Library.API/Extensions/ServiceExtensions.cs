@@ -56,8 +56,8 @@ public static class ServiceExtensions
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;
                 o.Password.RequireUppercase = false;
-                o.Password.RequiredLength = 10;
-                o.User.RequireUniqueEmail = true;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 8;
             })
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
