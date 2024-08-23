@@ -49,6 +49,32 @@ public static class ServiceExtensions
                     Url = new Uri("https://t.me/vlados1kin"),
                 },
             });
+            
+            s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Place to add JWT with Bearer",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+            
+            s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Name = "Bearer"
+                    },
+                    new List<string>()
+                }
+            });
+
         });
     }
 
@@ -69,7 +95,7 @@ public static class ServiceExtensions
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
-        var secret = configuration.GetSection("JwtSettings:SecretKey");
+        var secret = configuration["JwtSettings:SecretKey"];
 
         services.AddAuthentication(options =>
             {
@@ -87,7 +113,7 @@ public static class ServiceExtensions
 
                     ValidIssuer = jwtSettings["validIssuer"],
                     ValidAudience = jwtSettings["validAudience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret.Value))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
                 };
             });
     }
