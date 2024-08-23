@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.API.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240822190805_CreatingIdentityTables")]
+    [Migration("20240823121653_CreatingIdentityTables")]
     partial class CreatingIdentityTables
     {
         /// <inheritdoc />
@@ -128,8 +128,8 @@ namespace Library.API.Migrations
                             GenreId = new Guid("2330f6c1-3212-44fd-b231-c9ee4ffe196e"),
                             ISBN = "978-3-4534-3577-3",
                             Name = "It",
-                            ReceiveTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5957),
-                            ReturnTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5976),
+                            ReceiveTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7912),
+                            ReturnTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7938),
                             Title = "Stephen King’s terrifying, classic #1 New York Times bestseller."
                         },
                         new
@@ -139,8 +139,8 @@ namespace Library.API.Migrations
                             GenreId = new Guid("2330f6c1-3212-44fd-b231-c9ee4ffe196e"),
                             ISBN = "978-2-2264-9274-6",
                             Name = "Holly",
-                            ReceiveTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5989),
-                            ReturnTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5990),
+                            ReceiveTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7953),
+                            ReturnTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7955),
                             Title = "Holly Gibney, one of Stephen King’s most compelling and resourceful characters, returns in this chilling novel to solve the gruesome truth behind multiple disappearances in a midwestern town."
                         },
                         new
@@ -150,8 +150,8 @@ namespace Library.API.Migrations
                             GenreId = new Guid("3898242b-a685-4d49-bd06-8c7e34e14d7c"),
                             ISBN = "978-0-4608-7595-0",
                             Name = "Eugene Onegin",
-                            ReceiveTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6000),
-                            ReturnTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6002),
+                            ReceiveTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7965),
+                            ReturnTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7966),
                             Title = "Eugene Onegin is the master work of the poet whom Russians regard as the fountainhead of their literature."
                         },
                         new
@@ -161,8 +161,8 @@ namespace Library.API.Migrations
                             GenreId = new Guid("27e0db66-79ef-448d-b20c-af2c1a769e6b"),
                             ISBN = "978-9-8515-5288-3",
                             Name = "The New Land",
-                            ReceiveTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6011),
-                            ReturnTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6013),
+                            ReceiveTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7976),
+                            ReturnTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7977),
                             Title = "The first Belarusian lyric-epic work."
                         },
                         new
@@ -172,8 +172,8 @@ namespace Library.API.Migrations
                             GenreId = new Guid("27e0db66-79ef-448d-b20c-af2c1a769e6b"),
                             ISBN = "978-9-8588-1435-9",
                             Name = "Heritage",
-                            ReceiveTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6022),
-                            ReturnTime = new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6023),
+                            ReceiveTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7986),
+                            ReturnTime = new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7988),
                             Title = "The book of People's Poet of Belarus Yanka Kupala includes verses and poems that give an idea of the main stages of his creative path, the ideological, thematic and genre richness of his poetry, the peculiarities of his artistic skill."
                         });
                 });
@@ -308,6 +308,20 @@ namespace Library.API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0060100f-f427-490d-8189-851015497ab8",
+                            Name = "user",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "93d66797-d07b-419c-a31f-c87fdf19e01e",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

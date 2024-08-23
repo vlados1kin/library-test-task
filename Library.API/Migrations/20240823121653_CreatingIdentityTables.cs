@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Library.API.Migrations
 {
     /// <inheritdoc />
@@ -158,40 +160,49 @@ namespace Library.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "0060100f-f427-490d-8189-851015497ab8", null, "user", "USER" },
+                    { "93d66797-d07b-419c-a31f-c87fdf19e01e", null, "admin", "ADMIN" }
+                });
+
             migrationBuilder.UpdateData(
                 table: "Book",
                 keyColumn: "Id",
                 keyValue: new Guid("130fa159-70c1-42fb-8f31-5907f04b20e2"),
                 columns: new[] { "ReceiveTime", "ReturnTime" },
-                values: new object[] { new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6022), new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6023) });
+                values: new object[] { new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7986), new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7988) });
 
             migrationBuilder.UpdateData(
                 table: "Book",
                 keyColumn: "Id",
                 keyValue: new Guid("2c463c56-21eb-4aae-8c2b-a87bcda80256"),
                 columns: new[] { "ReceiveTime", "ReturnTime" },
-                values: new object[] { new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6011), new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6013) });
+                values: new object[] { new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7976), new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7977) });
 
             migrationBuilder.UpdateData(
                 table: "Book",
                 keyColumn: "Id",
                 keyValue: new Guid("4dccb0be-1de4-4659-80d2-0cf971a0d599"),
                 columns: new[] { "ReceiveTime", "ReturnTime" },
-                values: new object[] { new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6000), new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(6002) });
+                values: new object[] { new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7965), new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7966) });
 
             migrationBuilder.UpdateData(
                 table: "Book",
                 keyColumn: "Id",
                 keyValue: new Guid("bd304d0c-66b5-4873-bd22-c83f804ca7b7"),
                 columns: new[] { "ReceiveTime", "ReturnTime" },
-                values: new object[] { new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5989), new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5990) });
+                values: new object[] { new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7953), new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7955) });
 
             migrationBuilder.UpdateData(
                 table: "Book",
                 keyColumn: "Id",
                 keyValue: new Guid("f86f763e-7f80-491d-ac29-ec93cf0048e0"),
                 columns: new[] { "ReceiveTime", "ReturnTime" },
-                values: new object[] { new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5957), new DateTime(2024, 8, 22, 22, 8, 5, 149, DateTimeKind.Local).AddTicks(5976) });
+                values: new object[] { new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7912), new DateTime(2024, 8, 23, 15, 16, 52, 225, DateTimeKind.Local).AddTicks(7938) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
