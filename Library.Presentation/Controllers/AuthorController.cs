@@ -3,6 +3,7 @@ using Library.Domain.Settings;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Presentation.Controllers;
 
@@ -26,6 +27,7 @@ public class AuthorController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetAuthorById")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> GetAuthorById([FromRoute] Guid id)
     {
         var authorDto = await _service.AuthorService.GetAuthorById(id, trackChanges: false);
