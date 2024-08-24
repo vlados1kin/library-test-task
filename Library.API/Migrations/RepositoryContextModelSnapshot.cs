@@ -48,7 +48,7 @@ namespace Library.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Author", (string)null);
 
                     b.HasData(
                         new
@@ -115,7 +115,7 @@ namespace Library.API.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Book", (string)null);
 
                     b.HasData(
                         new
@@ -187,7 +187,7 @@ namespace Library.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genre", (string)null);
 
                     b.HasData(
                         new
