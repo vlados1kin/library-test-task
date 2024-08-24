@@ -5,6 +5,8 @@ namespace Library.Contracts;
 
 public interface IUserService
 {
+    Task<IEnumerable<UserDto>> GetUsersAsync();
+    Task<UserDto> GetUserByIdAsync(Guid id);
     Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto);
     Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
     Task<string> GenerateToken();
