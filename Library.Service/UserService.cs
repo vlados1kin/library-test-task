@@ -3,9 +3,11 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using Library.Contracts;
+using Library.Domain.Exceptions;
 using Library.Domain.Models;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,6 +26,22 @@ public class UserService : IUserService
         _mapper = mapper;
         _userManager = userManager;
         _configuration = configuration;
+    }
+
+    public async Task<IEnumerable<UserDto>> GetUsersAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var userDtos = _mapper.Map<IEnumerable<UserDto>>(users);
+        return userDtos;
+    }
+
+    public async Task<UserDto> GetUserByIdAsync(Guid id)
+    {
+        var user = await _userManager.Users.Where(u => u.Id.Equals(id)).SingleOrDefaultAsync();
+        if (user is null)
+            throw new UserNotFoundException(id);
+        var userDto = _mapper.Map<UserDto>(user);
+        return userDto;
     }
     
     public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
