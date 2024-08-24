@@ -1,7 +1,9 @@
 using Library.API.Extensions;
+using Library.API.Requirements;
 using Library.Contracts;
 using Library.Domain.Settings;
 using Library.Service;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +23,18 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureServiceManager();
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddSingleton<IAuthorizationHandler, SelfOnlyAuthorizationHandler>();
 
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt(builder.Configuration);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminAndSelfOnly", policy => policy.Requirements.Add(new SelfOnlyAuthorizationRequirement()));
+});
+
 
 var app = builder.Build();
 
