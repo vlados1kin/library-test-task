@@ -2,7 +2,7 @@
 
 public class ImageOfBookNotFoundException : NotFoundException
 {
-    public ImageOfBookNotFoundException(string fileNameWithExtension) : base($"The image with name: {fileNameWithExtension} does not exist.")
+    public ImageOfBookNotFoundException(Guid id) : base($"The image with id: {id} does not exist.")
     {
     }
 }
