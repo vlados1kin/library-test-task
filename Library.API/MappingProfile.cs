@@ -29,5 +29,13 @@ public class MappingProfile : Profile
         CreateMap<GenreForCreationDto, Genre>();
 
         CreateMap<GenreForUpdateDto, Genre>();
+
+        CreateMap<Issue, IssueDto>();
+
+        CreateMap<IssueForCreationDto, Issue>();
+
+        CreateMap<IssueForUpdateDto, Issue>();
+
+        CreateMap<User, UserDto>();
     }
 }
