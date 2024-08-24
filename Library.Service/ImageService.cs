@@ -18,52 +18,30 @@ public class ImageService : IImageService
         _imageSettings = imageSettings;
     }
 
-    public async Task<(byte[] fileBytes, string contentType, string fileName)> DownloadImageAsync(string fileNameWithExtension)
+    public async Task<(byte[] fileBytes, string contentType, string fileName)> DownloadImageAsync(Guid id)
     {
+        var fileNameWithExtension = id + ".png";
         var fullPath = Path.Combine(Directory.GetCurrentDirectory(), BookUploadPath, fileNameWithExtension);
 
         if (!File.Exists(fullPath))
-            throw new ImageOfBookNotFoundException(fileNameWithExtension);
+            throw new ImageOfBookNotFoundException(id);
 
         var fileBytes = await File.ReadAllBytesAsync(fullPath);
-        var contentType = GetContentType(fullPath);
+        var contentType = "image/png";
         return (fileBytes: fileBytes, contentType: contentType, fileName: fileNameWithExtension);
     }
 
-    public async Task<string> UploadImageAsync(Guid id, UploadImage uploadImage)
+    public async Task UploadImageAsync(Guid id, UploadImage uploadImage)
     {
         if (!Directory.Exists(BookUploadPath))
-        {
             Directory.CreateDirectory(BookUploadPath);
-        }
 
-        var fileNameWithExtension = id + Path.GetExtension(uploadImage.Image.FileName);
-        var filePath = Path.Combine(BookUploadPath, fileNameWithExtension);
-        await using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await uploadImage.Image.CopyToAsync(stream);
-        }
-
-        return fileNameWithExtension;
-    }
-    
-    private string GetContentType(string path)
-    {
-        var types = GetMimeTypes();
-        var ext = Path.GetExtension(path).ToLowerInvariant();
-        return types.GetValueOrDefault(ext, "application/octet-stream");
-    }
-
-    private Dictionary<string, string> GetMimeTypes()
-    {
-        return new Dictionary<string, string>
-        {
-            { ".jpg", "image/jpeg" },
-            { ".jpeg", "image/jpeg" },
-            { ".png", "image/png" },
-            { ".gif", "image/gif" },
-            { ".bmp", "image/bmp" },
-            { ".pdf", "application/pdf" }
-        };
+        var extension = Path.GetExtension(uploadImage.Image.FileName);
+        if (string.IsNullOrEmpty(extension) || extension != ".png")
+            throw new WrongImageExtensionBadRequestException();
+        
+        var filePath = Path.Combine(BookUploadPath, id + extension);
+        await using var stream = new FileStream(filePath, FileMode.Create);
+        await uploadImage.Image.CopyToAsync(stream);
     }
 }

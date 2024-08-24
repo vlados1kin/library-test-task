@@ -5,6 +5,6 @@ namespace Library.Contracts;
 
 public interface IImageService
 {
-    Task<(byte[] fileBytes, string contentType, string fileName)> DownloadImageAsync(string fileNameWithExtension);
-    Task<string> UploadImageAsync(Guid id, UploadImage uploadImage);
+    Task<(byte[] fileBytes, string contentType, string fileName)> DownloadImageAsync(Guid id);
+    Task UploadImageAsync(Guid id, UploadImage uploadImage);
 }
