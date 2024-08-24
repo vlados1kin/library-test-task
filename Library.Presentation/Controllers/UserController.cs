@@ -25,11 +25,19 @@ public class UserController : ControllerBase
     }
     
     [HttpGet("{id:guid}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminAndSelfOnly")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
         var userDto = await _service.UserService.GetUserByIdAsync(id);
         return Ok(userDto);
+    }
+
+    [HttpGet("{id:guid}/issues")]
+    [Authorize(Policy = "AdminAndSelfOnly")]
+    public async Task<IActionResult> GetIssuesByUserId([FromRoute] Guid id)
+    {
+        var issueDtos = await _service.IssueService.GetIssuesByUserIdAsync(id, trackChanges: false);
+        return Ok(issueDtos);
     }
     
     [HttpPost("login")]
