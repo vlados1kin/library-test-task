@@ -71,7 +71,8 @@ public class UserService : IUserService
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
-
+        claims.Add(new Claim(ClaimTypes.NameIdentifier, _user.Id.ToString()));
+        
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var tokenOptions = new JwtSecurityToken
         (
