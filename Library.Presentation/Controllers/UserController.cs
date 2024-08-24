@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Presentation.Controllers;
 
 [ApiController]
-[Route("api/user")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -18,16 +18,16 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] UserForAuthenticationDto userForAuthenticationDto)
     {
-        if (!await _service.AuthenticationService.ValidateUser(userForAuthenticationDto))
+        if (!await _service.UserService.ValidateUser(userForAuthenticationDto))
             return Unauthorized();
 
-        return Ok(new { Token = await _service.AuthenticationService.GenerateToken() });
+        return Ok(new { Token = await _service.UserService.GenerateToken() });
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
     {
-        var result = await _service.AuthenticationService.RegisterUser(userForRegistrationDto);
+        var result = await _service.UserService.RegisterUser(userForRegistrationDto);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)

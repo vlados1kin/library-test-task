@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Library.Contracts;
 
-public interface IAuthenticationService
+public interface IUserService
 {
     Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto);
     Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);

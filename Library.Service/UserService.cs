@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Library.Service;
 
-public class AuthenticationService : IAuthenticationService
+public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
@@ -19,7 +19,7 @@ public class AuthenticationService : IAuthenticationService
 
     private User? _user;
     
-    public AuthenticationService(IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
+    public UserService(IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
     {
         _mapper = mapper;
         _userManager = userManager;
