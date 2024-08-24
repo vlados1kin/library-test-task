@@ -23,6 +23,13 @@ public class IssueService : IIssueService
         var issuesDto = _mapper.Map<IEnumerable<IssueDto>>(issues);
         return issuesDto;
     }
+    
+    public async Task<IEnumerable<IssueDto>> GetIssuesByUserIdAsync(Guid id, bool trackChanges)
+    {
+        var issues = await _repository.Issue.GetIssuesByUserIdAsync(id, trackChanges);
+        var issuesDto = _mapper.Map<IEnumerable<IssueDto>>(issues);
+        return issuesDto;
+    }
 
     public async Task<IssueDto> GetIssueByIdAsync(Guid id, bool trackChanges)
     {
@@ -33,11 +40,13 @@ public class IssueService : IIssueService
         return issueDto;
     }
 
-    public async Task CreateIssueAsync(IssueForCreationDto issueDtoForCreationDto)
+    public async Task<IssueDto> CreateIssueAsync(IssueForCreationDto issueDtoForCreationDto)
     {
         var issue = _mapper.Map<Issue>(issueDtoForCreationDto);
         _repository.Issue.CreateIssue(issue);
         await _repository.SaveAsync();
+        var issueDto = _mapper.Map<IssueDto>(issue);
+        return issueDto;
     }
 
     public async Task UpdateIssueAsync(Guid id, IssueForUpdateDto issueForUpdateDto, bool trackChanges)
@@ -49,7 +58,7 @@ public class IssueService : IIssueService
         await _repository.SaveAsync();
     }
 
-    public async Task DeleteIssue(Guid id, bool trackChanges)
+    public async Task DeleteIssueAsync(Guid id, bool trackChanges)
     {
         var issue = await _repository.Issue.GetIssueByIdAsync(id, trackChanges);
         if (issue is null)

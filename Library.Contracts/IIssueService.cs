@@ -6,8 +6,9 @@ namespace Library.Contracts;
 public interface IIssueService
 {
     Task<IEnumerable<IssueDto>> GetIssuesAsync(bool trackChanges);
+    Task<IEnumerable<IssueDto>> GetIssuesByUserIdAsync(Guid id, bool trackChanges);
     Task<IssueDto> GetIssueByIdAsync(Guid id, bool trackChanges);
-    Task CreateIssueAsync(IssueForCreationDto issueDtoForCreationDto);
+    Task<IssueDto> CreateIssueAsync(IssueForCreationDto issueDtoForCreationDto);
     Task UpdateIssueAsync(Guid id, IssueForUpdateDto issueForUpdateDto, bool trackChanges);
-    Task DeleteIssue(Guid id, bool trackChanges);
+    Task DeleteIssueAsync(Guid id, bool trackChanges);
 }
