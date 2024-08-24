@@ -14,7 +14,7 @@ public class MappingProfile : Profile
 
         CreateMap<AuthorForUpdateDto, Author>();
 
-        CreateMap<Book, BookDto>().ForMember(bd => bd.Genre, opt => opt.MapFrom(src => src.Genre.Name));
+        CreateMap<Book, BookDto>();
 
         CreateMap<BookForCreationDto, Book>();
 
@@ -23,5 +23,11 @@ public class MappingProfile : Profile
         CreateMap<BookForIssueDto, Book>();
 
         CreateMap<UserForRegistrationDto, User>();
+
+        CreateMap<Genre, GenreDto>();
+
+        CreateMap<GenreForCreationDto, Genre>();
+
+        CreateMap<GenreForUpdateDto, Genre>();
     }
 }
