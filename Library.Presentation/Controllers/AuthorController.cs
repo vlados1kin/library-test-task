@@ -27,11 +27,17 @@ public class AuthorController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetAuthorById")]
-    [Authorize(Roles = "admin")]
     public async Task<IActionResult> GetAuthorById([FromRoute] Guid id)
     {
         var authorDto = await _service.AuthorService.GetAuthorById(id, trackChanges: false);
         return Ok(authorDto);
+    }
+    
+    [HttpGet("{id:guid}/books")]
+    public async Task<IActionResult> GetBooksWithAuthorId([FromRoute] Guid id)
+    {
+        var booksDto = await _service.BookService.GetBooksByAuthorIdAsync(id, trackChanges: false);
+        return Ok(booksDto);
     }
 
     [HttpPost]
@@ -53,12 +59,5 @@ public class AuthorController : ControllerBase
     {
         await _service.AuthorService.DeleteAuthorAsync(id, trackChanges: true);
         return NoContent();
-    }
-
-    [HttpGet("{id:guid}/books")]
-    public async Task<IActionResult> GetBooksWithAuthorId([FromRoute] Guid id)
-    {
-        var booksDto = await _service.BookService.GetBooksByAuthorIdAsync(id, trackChanges: false);
-        return Ok(booksDto);
     }
 }
