@@ -80,7 +80,7 @@ public static class ServiceExtensions
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<User, IdentityRole>(o => 
+        var builder = services.AddIdentity<User, IdentityRole<Guid>>(o => 
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;
