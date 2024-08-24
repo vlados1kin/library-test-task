@@ -1,5 +1,6 @@
 ﻿using Library.Contracts;
 using Library.Shared.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Presentation.Controllers;
@@ -13,6 +14,22 @@ public class UserController : ControllerBase
     public UserController(IServiceManager service)
     {
         _service = service;
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetUsers()
+    {
+        var userDtos = await _service.UserService.GetUsersAsync();
+        return Ok(userDtos);
+    }
+    
+    [HttpGet("{id:guid}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+    {
+        var userDto = await _service.UserService.GetUserByIdAsync(id);
+        return Ok(userDto);
     }
     
     [HttpPost("login")]
