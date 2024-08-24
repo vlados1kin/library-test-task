@@ -68,17 +68,17 @@ public class BookController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet("download-image/{fileNameWithExtension}", Name = "DownloadImage")]
-    public async Task<IActionResult> DownloadImage([FromRoute] string fileNameWithExtension)
+    [HttpGet("{id}/image", Name = "DownloadImage")]
+    public async Task<IActionResult> DownloadImage([FromRoute] Guid id)
     {
-        var result = await _service.ImageService.DownloadImageAsync(fileNameWithExtension);
+        var result = await _service.ImageService.DownloadImageAsync(id);
         return File(result.fileBytes, result.contentType, result.fileName);
     }
     
-    [HttpPost("upload-image/{id:guid}")]
+    [HttpPost("{id:guid}/image")]
     public async Task<IActionResult> UploadImage([FromRoute] Guid id, [FromForm] UploadImage uploadImage)
     {
-        var fileName = await _service.ImageService.UploadImageAsync(id, uploadImage);
-        return CreatedAtRoute("DownloadImage", new { fileNameWithExtension = fileName }, fileName);
+        await _service.ImageService.UploadImageAsync(id, uploadImage);
+        return CreatedAtRoute("DownloadImage", new { Id = id }, null);
     }
 }
