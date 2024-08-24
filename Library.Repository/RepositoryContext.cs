@@ -15,6 +15,7 @@ public class RepositoryContext : IdentityDbContext<User, IdentityRole<Guid>, Gui
     public DbSet<Author> Authors = null!;
     public DbSet<Book> Books = null!;
     public DbSet<Genre> Genres = null!;
+    public DbSet<Issue> Issues = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
