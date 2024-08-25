@@ -9,5 +9,6 @@ public interface IUserService
     Task<UserDto> GetUserByIdAsync(Guid id);
     Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto);
     Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
-    Task<string> GenerateToken();
+    Task<TokenDto> GenerateToken(bool populateExp);
+    Task<TokenDto> RefreshToken(TokenDto tokenDto);
 }
