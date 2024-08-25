@@ -23,7 +23,7 @@ public class UserController : ControllerBase
         var userDtos = await _service.UserService.GetUsersAsync();
         return Ok(userDtos);
     }
-    
+
     [HttpGet("{id:guid}")]
     [Authorize(Policy = "AdminAndSelfOnly")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
@@ -39,28 +39,32 @@ public class UserController : ControllerBase
         var issueDtos = await _service.IssueService.GetIssuesByUserIdAsync(id, trackChanges: false);
         return Ok(issueDtos);
     }
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] UserForAuthenticationDto userForAuthenticationDto)
     {
         if (!await _service.UserService.ValidateUser(userForAuthenticationDto))
             return Unauthorized();
 
-        return Ok(new { Token = await _service.UserService.GenerateToken() });
+        var tokenDto = await _service.UserService.GenerateToken(populateExp: true);
+        return Ok(tokenDto);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
     {
         var result = await _service.UserService.RegisterUser(userForRegistrationDto);
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.TryAddModelError(error.Code, error.Description);
-            }
-            return BadRequest(ModelState);
-        }
-        return StatusCode(201);
+        if (result.Succeeded) 
+            return StatusCode(201);
+        foreach (var error in result.Errors)
+            ModelState.TryAddModelError(error.Code, error.Description);
+        return BadRequest(ModelState);
+    }
+    
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody]TokenDto tokenDto)
+    {
+        var tokenDtoToReturn = await _service.UserService.RefreshToken(tokenDto);
+        return Ok(tokenDtoToReturn);
     }
 }
