@@ -61,13 +61,6 @@ public class BookController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("issue/{id:guid}")]
-    public async Task<IActionResult> IssueBook([FromRoute] Guid id, [FromBody] BookForIssueDto bookForIssueDto)
-    {
-        await _service.BookService.IssueBookAsync(id, bookForIssueDto, trackChanges: true);
-        return NoContent();
-    }
-
     [HttpGet("{id}/image", Name = "DownloadImage")]
     public async Task<IActionResult> DownloadImage([FromRoute] Guid id)
     {
