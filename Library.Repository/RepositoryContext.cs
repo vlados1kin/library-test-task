@@ -12,10 +12,10 @@ public class RepositoryContext : IdentityDbContext<User, IdentityRole<Guid>, Gui
     {
     }
 
-    public DbSet<Author> Authors = null!;
-    public DbSet<Book> Books = null!;
-    public DbSet<Genre> Genres = null!;
-    public DbSet<Issue> Issues = null!;
+    public DbSet<Author> Authors { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Issue> Issues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
