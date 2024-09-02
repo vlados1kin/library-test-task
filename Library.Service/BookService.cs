@@ -47,7 +47,7 @@ public class BookService : IBookService
     public async Task<BookDto> CreateBookAsync(BookForCreationDto bookForCreationDto)
     {
         var book = _mapper.Map<Book>(bookForCreationDto);
-        _repository.Book.CreateBook(book);
+        _repository.Book.Create(book);
         await _repository.SaveAsync();
         var bookDto = _mapper.Map<BookDto>(book);
         return bookDto;
@@ -67,7 +67,7 @@ public class BookService : IBookService
         var book = await _repository.Book.GetBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookWithIdNotFoundException(id);
-        _repository.Book.DeleteBook(book);
+        _repository.Book.Delete(book);
         await _repository.SaveAsync();
     }
     
