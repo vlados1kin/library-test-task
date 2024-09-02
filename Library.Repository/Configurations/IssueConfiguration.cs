@@ -8,6 +8,8 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
 {
     public void Configure(EntityTypeBuilder<Issue> builder)
     {
+        builder.ToTable("Issues");
+        
         builder.HasKey(i => i.Id);
 
         builder.HasOne(i => i.Book)

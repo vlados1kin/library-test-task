@@ -8,6 +8,8 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
 {
     public void Configure(EntityTypeBuilder<Genre> builder)
     {
+        builder.ToTable("Genres");
+        
         builder.HasKey(g => g.Id);
 
         builder.HasMany(g => g.Books)
