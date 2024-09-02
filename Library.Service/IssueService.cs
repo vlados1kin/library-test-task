@@ -43,7 +43,7 @@ public class IssueService : IIssueService
     public async Task<IssueDto> CreateIssueAsync(IssueForCreationDto issueDtoForCreationDto)
     {
         var issue = _mapper.Map<Issue>(issueDtoForCreationDto);
-        _repository.Issue.CreateIssue(issue);
+        _repository.Issue.Create(issue);
         await _repository.SaveAsync();
         var issueDto = _mapper.Map<IssueDto>(issue);
         return issueDto;
@@ -63,7 +63,7 @@ public class IssueService : IIssueService
         var issue = await _repository.Issue.GetIssueByIdAsync(id, trackChanges);
         if (issue is null)
             throw new IssueNotFoundException(id);
-        _repository.Issue.DeleteIssue(issue);
+        _repository.Issue.Delete(issue);
         await _repository.SaveAsync();
     }
 }
