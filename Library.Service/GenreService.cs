@@ -37,7 +37,7 @@ public class GenreService : IGenreService
     public async Task<GenreDto> CreateGenreAsync(GenreForCreationDto genreForCreationDto)
     {
         var genre = _mapper.Map<Genre>(genreForCreationDto);
-        _repository.Genre.CreateGenre(genre);
+        _repository.Genre.Create(genre);
         await _repository.SaveAsync();
         var genreDto = _mapper.Map<GenreDto>(genre);
         return genreDto;
@@ -57,7 +57,7 @@ public class GenreService : IGenreService
         var genre = await _repository.Genre.GetGenreByIdAsync(id, trackChanges);
         if (genre is null)
             throw new GenreNotFoundException(id);
-        _repository.Genre.DeleteGenre(genre);
+        _repository.Genre.Delete(genre);
         await _repository.SaveAsync();
     }
 }
