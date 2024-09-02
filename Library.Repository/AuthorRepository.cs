@@ -17,12 +17,7 @@ public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
         var authors = await FindAll(trackChanges).ToListAsync();
         return PagedList<Author>.ToPagedList(authors, authorParameters.PageNumber, authorParameters.PageSize);
     }
-        
-
+    
     public async Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges) =>
         await FindByCondition(a => a.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
-
-    public void CreateAuthor(Author author) => Create(author);
-
-    public void DeleteAuthor(Author author) => Delete(author);
 }

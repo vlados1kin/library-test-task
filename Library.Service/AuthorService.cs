@@ -38,7 +38,7 @@ public class AuthorService : IAuthorService
     public async Task<AuthorDto> CreateAuthorAsync(AuthorForCreationDto authorForCreationDto)
     {
         var author = _mapper.Map<Author>(authorForCreationDto);
-        _repository.Author.CreateAuthor(author);
+        _repository.Author.Create(author);
         await _repository.SaveAsync();
         var authorDto = _mapper.Map<AuthorDto>(author);
         return authorDto;
@@ -58,7 +58,7 @@ public class AuthorService : IAuthorService
         var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
         if (author is null)
             throw new AuthorNotFoundException(id);
-        _repository.Author.DeleteAuthor(author);
+        _repository.Author.Delete(author);
         await _repository.SaveAsync();
     }
 }
