@@ -4,6 +4,7 @@ using Library.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Library.Service.AuthorUseCases;
+using Library.Service.BookUseCases;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Presentation.Controllers;
@@ -17,19 +18,22 @@ public class AuthorController : ControllerBase
     private readonly CreateAuthorUseCase _createAuthorUseCase;
     private readonly UpdateAuthorUseCase _updateAuthorUseCase;
     private readonly DeleteAuthorUseCase _deleteAuthorUseCase;
+    private readonly GetBooksByAuthorIdUseCase _getBooksByAuthorIdUseCase;
     
     public AuthorController(
         GetAuthorsUseCase getAuthorsUseCase,
         GetAuthorByIdUseCase getAuthorByIdUseCase,
         CreateAuthorUseCase createAuthorUseCase,
         UpdateAuthorUseCase updateAuthorUseCase,
-        DeleteAuthorUseCase deleteAuthorUseCase)
+        DeleteAuthorUseCase deleteAuthorUseCase,
+        GetBooksByAuthorIdUseCase getBooksByAuthorIdUseCase)
     {
         _getAuthorsUseCase = getAuthorsUseCase;
         _getAuthorByIdUseCase = getAuthorByIdUseCase;
         _createAuthorUseCase = createAuthorUseCase;
         _updateAuthorUseCase = updateAuthorUseCase;
         _deleteAuthorUseCase = deleteAuthorUseCase;
+        _getBooksByAuthorIdUseCase = getBooksByAuthorIdUseCase;
     }
 
     [HttpGet(Name = "GetAuthors")]
@@ -50,8 +54,8 @@ public class AuthorController : ControllerBase
     [HttpGet("{id:guid}/books")]
     public async Task<IActionResult> GetBooksWithAuthorId([FromRoute] Guid id)
     {
-        //var booksDto = await _service.BookService.GetBooksByAuthorIdAsync(id, trackChanges: false);
-        return Ok(/*booksDto*/);
+        var booksDto = await _getBooksByAuthorIdUseCase.ExecuteAsync(id, trackChanges: false);
+        return Ok(booksDto);
     }
 
     [HttpPost]
