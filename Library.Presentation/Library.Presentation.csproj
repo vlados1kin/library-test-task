@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Library.Contracts\Library.Contracts.csproj" />
+      <ProjectReference Include="..\Library.Service\Library.Service.csproj" />
       <ProjectReference Include="..\Library.Shared\Library.Shared.csproj" />
     </ItemGroup>
 
