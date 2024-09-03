@@ -1,4 +1,5 @@
 using Library.API.Extensions;
+using Library.API.Middlewares;
 using Library.API.Requirements;
 using Library.Contracts;
 using Library.Domain.Settings;
@@ -46,7 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(s => { s.SwaggerEndpoint("/swagger/v1/swagger.json", "Library API v1"); });
 }
 
-app.ConfigureExceptionHandler();
+//app.ConfigureExceptionHandler();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
