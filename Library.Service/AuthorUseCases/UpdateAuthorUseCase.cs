@@ -22,6 +22,6 @@ public class UpdateAuthorUseCase
         if (author is null)
             throw new AuthorNotFoundException(id);
         _mapper.Map(authorForUpdateDto, author);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
     }
 }

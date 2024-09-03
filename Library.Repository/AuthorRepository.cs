@@ -24,5 +24,5 @@ public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
     public async Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges) =>
         await FindByCondition(a => a.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 
-    public async Task SaveAsync() => await _context.SaveChangesAsync();
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }

@@ -20,7 +20,7 @@ public class CreateAuthorUseCase
     {
         var author = _mapper.Map<Author>(authorForCreationDto);
         _repository.Create(author);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
         var authorDto = _mapper.Map<AuthorDto>(author);
         return authorDto;
     }

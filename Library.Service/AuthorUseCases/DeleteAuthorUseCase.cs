@@ -21,6 +21,6 @@ public class DeleteAuthorUseCase
         if (author is null)
             throw new AuthorNotFoundException(id);
         _repository.Delete(author);
-        await _repository.SaveAsync();
+        await _repository.SaveChangesAsync();
     }
 }

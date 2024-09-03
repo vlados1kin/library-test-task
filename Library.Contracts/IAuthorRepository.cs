@@ -8,5 +8,5 @@ public interface IAuthorRepository : IRepositoryBase<Author>
 {
     Task<PagedList<Author>> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges);
     Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges);
-    Task SaveAsync();
+    Task SaveChangesAsync();
 }
