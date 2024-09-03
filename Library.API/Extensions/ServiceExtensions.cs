@@ -3,6 +3,7 @@ using Library.Contracts;
 using Library.Domain.Models;
 using Library.Repository;
 using Library.Service;
+using Library.Service.AuthorUseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,20 @@ public static class ServiceExtensions
 
     public static void ConfigureRepositoryManager(this IServiceCollection services)
         => services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+    public static void ConfigureRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
+    } 
+    
+    public static void ConfigureUseCases(this IServiceCollection services)
+    {
+        services.AddScoped<GetAuthorsUseCase>();
+        services.AddScoped<GetAuthorByIdUseCase>();
+        services.AddScoped<CreateAuthorUseCase>();
+        services.AddScoped<UpdateAuthorUseCase>();
+        services.AddScoped<DeleteAuthorUseCase>();
+    }
 
     public static void ConfigureServiceManager(this IServiceCollection services)
         => services.AddScoped<IServiceManager, ServiceManager>();

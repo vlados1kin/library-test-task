@@ -18,10 +18,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureCors();
+
 builder.Services.ConfigureDbContext(builder.Configuration);
-builder.Services.ConfigureRepositoryManager();
+//builder.Services.ConfigureRepositoryManager();
+//builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureUseCases();
+
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.ConfigureServiceManager();
+
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSingleton<IAuthorizationHandler, SelfOnlyAuthorizationHandler>();
@@ -35,7 +40,6 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminAndSelfOnly", policy => policy.Requirements.Add(new SelfOnlyAuthorizationRequirement()));
 });
-
 
 var app = builder.Build();
 
