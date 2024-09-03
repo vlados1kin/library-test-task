@@ -16,7 +16,7 @@ public class GetBooksByAuthorIdUseCase
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<BookDto>> GetBooksByAuthorIdAsync(Guid id, bool trackChanges)
+    public async Task<IEnumerable<BookDto>> ExecuteAsync(Guid id, bool trackChanges)
     {
         var books = await _repository.GetBooksByAuthorIdAsync(id, trackChanges);
         var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
