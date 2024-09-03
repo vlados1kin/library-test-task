@@ -8,8 +8,11 @@ namespace Library.Repository;
 
 public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
 {
+    private readonly RepositoryContext _context;
+    
     public AuthorRepository(RepositoryContext context) : base(context)
     {
+        _context = context;
     }
 
     public async Task<PagedList<Author>> GetAuthorsAsync(AuthorParameters authorParameters, bool trackChanges)
@@ -20,4 +23,6 @@ public class AuthorRepository : RepositoryBase<Author>, IAuthorRepository
     
     public async Task<Author> GetAuthorByIdAsync(Guid id, bool trackChanges) =>
         await FindByCondition(a => a.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
+
+    public async Task SaveAsync() => await _context.SaveChangesAsync();
 }
