@@ -1,9 +1,12 @@
 ﻿using System.Text;
 using Library.Contracts;
 using Library.Domain.Models;
+using Library.Domain.Settings;
 using Library.Repository;
 using Library.Service;
 using Library.Service.AuthorUseCases;
+using Library.Service.BookUseCases;
+using Library.Service.ImageUseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +31,18 @@ public static class ServiceExtensions
         => services.AddDbContext<RepositoryContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 
-    public static void ConfigureRepositoryManager(this IServiceCollection services)
-        => services.AddScoped<IRepositoryManager, RepositoryManager>();
+    // public static void ConfigureRepositoryManager(this IServiceCollection services)
+    //     => services.AddScoped<IRepositoryManager, RepositoryManager>();
 
+    public static void ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
+    }
+    
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
     } 
     
     public static void ConfigureUseCases(this IServiceCollection services)
@@ -43,6 +52,17 @@ public static class ServiceExtensions
         services.AddScoped<CreateAuthorUseCase>();
         services.AddScoped<UpdateAuthorUseCase>();
         services.AddScoped<DeleteAuthorUseCase>();
+
+        services.AddScoped<GetBooksUseCase>();
+        services.AddScoped<GetBookByIdUseCase>();
+        services.AddScoped<GetBookByIsbnUseCase>();
+        services.AddScoped<GetBooksByAuthorIdUseCase>();
+        services.AddScoped<CreateBookUseCase>();
+        services.AddScoped<UpdateBookUseCase>();
+        services.AddScoped<DeleteBookUseCase>();
+
+        services.AddScoped<DownloadImageUseCase>();
+        services.AddScoped<UploadImageUseCase>();
     }
 
     public static void ConfigureServiceManager(this IServiceCollection services)
