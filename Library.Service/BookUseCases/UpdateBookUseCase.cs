@@ -16,12 +16,12 @@ public class UpdateBookUseCase
         _mapper = mapper;
     }
     
-    public async Task<BookDto> ExecuteAsync(Guid id, bool trackChanges)
+    public async Task ExecuteAsync(Guid id, BookForUpdateDto bookForUpdateDto, bool trackChanges)
     {
         var book = await _repository.GetBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookWithIdNotFoundException(id);
-        var bookDto = _mapper.Map<BookDto>(book);
-        return bookDto;
+        _mapper.Map(bookForUpdateDto, book);
+        await _repository.SaveChangesAsync();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Library.Contracts;
 using Library.Domain.Exceptions;
+using Library.Domain.Models;
 using Library.Shared.DTO;
 
 namespace Library.Service.BookUseCases;
@@ -16,11 +17,11 @@ public class CreateBookUseCase
         _mapper = mapper;
     }
     
-    public async Task<BookDto> ExecuteAsync(Guid id, bool trackChanges)
+    public async Task<BookDto> ExecuteAsync(BookForCreationDto bookForCreationDto)
     {
-        var book = await _repository.GetBookByIdAsync(id, trackChanges);
-        if (book is null)
-            throw new BookWithIdNotFoundException(id);
+        var book = _mapper.Map<Book>(bookForCreationDto);
+        _repository.Create(book);
+        await _repository.SaveChangesAsync();
         var bookDto = _mapper.Map<BookDto>(book);
         return bookDto;
     }

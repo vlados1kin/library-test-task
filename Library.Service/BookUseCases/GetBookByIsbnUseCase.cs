@@ -16,11 +16,11 @@ public class GetBookByIsbnUseCase
         _mapper = mapper;
     }
     
-    public async Task<BookDto> ExecuteAsync(Guid id, bool trackChanges)
+    public async Task<BookDto> ExecuteAsync(string isbn, bool trackChanges)
     {
-        var book = await _repository.GetBookByIdAsync(id, trackChanges);
+        var book = await _repository.GetBookByIsbnAsync(isbn, trackChanges);
         if (book is null)
-            throw new BookWithIdNotFoundException(id);
+            throw new BookWithIsbnNotFoundException(isbn);
         var bookDto = _mapper.Map<BookDto>(book);
         return bookDto;
     }

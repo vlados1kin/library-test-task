@@ -16,12 +16,12 @@ public class DeleteBookUseCase
         _mapper = mapper;
     }
     
-    public async Task<BookDto> ExecuteAsync(Guid id, bool trackChanges)
+    public async Task ExecuteAsync(Guid id, bool trackChanges)
     {
         var book = await _repository.GetBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookWithIdNotFoundException(id);
-        var bookDto = _mapper.Map<BookDto>(book);
-        return bookDto;
+        _repository.Delete(book);
+        await _repository.SaveChangesAsync();
     }
 }
