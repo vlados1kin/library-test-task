@@ -7,10 +7,10 @@ namespace Library.Service.AuthorUseCases;
 
 public class UpdateAuthorUseCase
 {
-    private readonly IAuthorRepository _repository;
+    private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
 
-    public UpdateAuthorUseCase(IAuthorRepository repository, IMapper mapper)
+    public UpdateAuthorUseCase(IRepositoryManager repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -18,10 +18,10 @@ public class UpdateAuthorUseCase
     
     public async Task ExecuteAsync(Guid id, AuthorForUpdateDto authorForUpdateDto, bool trackChanges)
     {
-        var author = await _repository.GetAuthorByIdAsync(id, trackChanges);
+        var author = await _repository.Author.GetAuthorByIdAsync(id, trackChanges);
         if (author is null)
             throw new AuthorNotFoundException(id);
         _mapper.Map(authorForUpdateDto, author);
-        await _repository.SaveChangesAsync();
+        await _repository.SaveAsync();
     }
 }

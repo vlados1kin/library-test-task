@@ -8,10 +8,10 @@ namespace Library.Service.AuthorUseCases;
 
 public class GetAuthorsUseCase
 {
-    private readonly IAuthorRepository _repository;
+    private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
 
-    public GetAuthorsUseCase(IAuthorRepository repository, IMapper mapper)
+    public GetAuthorsUseCase(IRepositoryManager repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -19,7 +19,7 @@ public class GetAuthorsUseCase
     
     public async Task<(IEnumerable<AuthorDto> authorDtos, MetaData metaData)> ExecuteAsync(AuthorParameters authorParameters, bool trackChanges)
     {
-        var authorsWithMetaData = await _repository.GetAuthorsAsync(authorParameters, trackChanges);
+        var authorsWithMetaData = await _repository.Author.GetAuthorsAsync(authorParameters, trackChanges);
         var authorsDto = _mapper.Map<IEnumerable<AuthorDto>>(authorsWithMetaData);
         return (authorDtos: authorsDto, metaData: authorsWithMetaData.MetaData);
     }

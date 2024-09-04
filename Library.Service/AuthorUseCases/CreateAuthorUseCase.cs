@@ -7,10 +7,10 @@ namespace Library.Service.AuthorUseCases;
 
 public class CreateAuthorUseCase
 {
-    private readonly IAuthorRepository _repository;
+    private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
 
-    public CreateAuthorUseCase(IAuthorRepository repository, IMapper mapper)
+    public CreateAuthorUseCase(IRepositoryManager repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -19,8 +19,8 @@ public class CreateAuthorUseCase
     public async Task<AuthorDto> ExecuteAsync(AuthorForCreationDto authorForCreationDto)
     {
         var author = _mapper.Map<Author>(authorForCreationDto);
-        _repository.Create(author);
-        await _repository.SaveChangesAsync();
+        _repository.Author.Create(author);
+        await _repository.SaveAsync();
         var authorDto = _mapper.Map<AuthorDto>(author);
         return authorDto;
     }
