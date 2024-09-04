@@ -16,7 +16,8 @@ builder.Services.ConfigureCors();
 
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureSettings(builder.Configuration);
-builder.Services.ConfigureRepositories();
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureUseCases();
 
 builder.Services.AddAutoMapper(typeof(Program));

@@ -31,20 +31,17 @@ public static class ServiceExtensions
         => services.AddDbContext<RepositoryContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 
-    // public static void ConfigureRepositoryManager(this IServiceCollection services)
-    //     => services.AddScoped<IRepositoryManager, RepositoryManager>();
-
     public static void ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
     }
-    
-    public static void ConfigureRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<IAuthorRepository, AuthorRepository>();
-        services.AddScoped<IBookRepository, BookRepository>();
-    } 
-    
+
+    public static void ConfigureRepositoryManager(this IServiceCollection services)
+        => services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+    public static void ConfigureServiceManager(this IServiceCollection services)
+        => services.AddScoped<IServiceManager, ServiceManager>();
+
     public static void ConfigureUseCases(this IServiceCollection services)
     {
         services.AddScoped<GetAuthorsUseCase>();
@@ -65,16 +62,13 @@ public static class ServiceExtensions
         services.AddScoped<UploadImageUseCase>();
     }
 
-    public static void ConfigureServiceManager(this IServiceCollection services)
-        => services.AddScoped<IServiceManager, ServiceManager>();
-
     public static void ConfigureSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(s =>
         {
             s.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Library API", 
+                Title = "Library API",
                 Version = "v1",
                 Description = "Library API for a traineeship",
                 Contact = new OpenApiContact
@@ -84,7 +78,7 @@ public static class ServiceExtensions
                     Url = new Uri("https://t.me/vlados1kin"),
                 },
             });
-            
+
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -93,7 +87,7 @@ public static class ServiceExtensions
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer"
             });
-            
+
             s.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {
                 {
@@ -109,13 +103,12 @@ public static class ServiceExtensions
                     new List<string>()
                 }
             });
-
         });
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<User, IdentityRole<Guid>>(o => 
+        var builder = services.AddIdentity<User, IdentityRole<Guid>>(o =>
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;
