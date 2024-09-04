@@ -7,10 +7,10 @@ namespace Library.Service.BookUseCases;
 
 public class GetBookByIdUseCase
 {
-    private readonly IBookRepository _repository;
+    private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
 
-    public GetBookByIdUseCase(IBookRepository repository, IMapper mapper)
+    public GetBookByIdUseCase(IRepositoryManager repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -18,7 +18,7 @@ public class GetBookByIdUseCase
     
     public async Task<BookDto> ExecuteAsync(Guid id, bool trackChanges)
     {
-        var book = await _repository.GetBookByIdAsync(id, trackChanges);
+        var book = await _repository.Book.GetBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookWithIdNotFoundException(id);
         var bookDto = _mapper.Map<BookDto>(book);

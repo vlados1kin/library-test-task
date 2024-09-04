@@ -1,27 +1,20 @@
-﻿using AutoMapper;
-using Library.Contracts;
+﻿using Library.Contracts;
 using Library.Domain.Exceptions;
-using Library.Shared.DTO;
 
 namespace Library.Service.BookUseCases;
 
 public class DeleteBookUseCase
 {
-    private readonly IBookRepository _repository;
-    private readonly IMapper _mapper;
+    private readonly IRepositoryManager _repository;
 
-    public DeleteBookUseCase(IBookRepository repository, IMapper mapper)
-    {
-        _repository = repository;
-        _mapper = mapper;
-    }
+    public DeleteBookUseCase(IRepositoryManager repository) => _repository = repository;
     
     public async Task ExecuteAsync(Guid id, bool trackChanges)
     {
-        var book = await _repository.GetBookByIdAsync(id, trackChanges);
+        var book = await _repository.Book.GetBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookWithIdNotFoundException(id);
-        _repository.Delete(book);
-        await _repository.SaveChangesAsync();
+        _repository.Book.Delete(book);
+        await _repository.SaveAsync();
     }
 }

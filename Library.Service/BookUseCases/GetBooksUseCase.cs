@@ -8,10 +8,10 @@ namespace Library.Service.BookUseCases;
 
 public class GetBooksUseCase
 {
-    private readonly IBookRepository _repository;
+    private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
 
-    public GetBooksUseCase(IBookRepository repository, IMapper mapper)
+    public GetBooksUseCase(IRepositoryManager repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -19,7 +19,7 @@ public class GetBooksUseCase
     
     public async Task<(IEnumerable<BookDto> bookDtos, MetaData metaData)> ExecuteAsync(BookParameters bookParameters, bool trackChanges)
     {
-        var booksWithMetaData = await _repository.GetBooksAsync(bookParameters, trackChanges);
+        var booksWithMetaData = await _repository.Book.GetBooksAsync(bookParameters, trackChanges);
         var bookDto = _mapper.Map<IEnumerable<BookDto>>(booksWithMetaData);
         return (bookDtos: bookDto, metaData: booksWithMetaData.MetaData);
     }
