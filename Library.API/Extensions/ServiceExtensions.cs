@@ -6,7 +6,9 @@ using Library.Repository;
 using Library.Service;
 using Library.Service.AuthorUseCases;
 using Library.Service.BookUseCases;
+using Library.Service.GenreUseCases;
 using Library.Service.ImageUseCases;
+using Library.Service.IssueUseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +41,10 @@ public static class ServiceExtensions
     public static void ConfigureRepositoryManager(this IServiceCollection services)
         => services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-    public static void ConfigureServiceManager(this IServiceCollection services)
-        => services.AddScoped<IServiceManager, ServiceManager>();
+    public static void ConfigureServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
+    }
 
     public static void ConfigureUseCases(this IServiceCollection services)
     {
@@ -58,8 +62,21 @@ public static class ServiceExtensions
         services.AddScoped<UpdateBookUseCase>();
         services.AddScoped<DeleteBookUseCase>();
 
+        services.AddScoped<GetGenresUseCase>();
+        services.AddScoped<GetGenreByIdUseCase>();
+        services.AddScoped<CreateGenreUseCase>();
+        services.AddScoped<UpdateGenreUseCase>();
+        services.AddScoped<DeleteGenreUseCase>();
+
         services.AddScoped<DownloadImageUseCase>();
         services.AddScoped<UploadImageUseCase>();
+        
+        services.AddScoped<GetIssuesUseCase>();
+        services.AddScoped<GetIssuesByUserIdUseCase>();
+        services.AddScoped<GetIssueByIdUseCase>();
+        services.AddScoped<CreateIssueUseCase>();
+        services.AddScoped<UpdateIssueUseCase>();
+        services.AddScoped<DeleteIssueUseCase>();
     }
 
     public static void ConfigureSwagger(this IServiceCollection services)
