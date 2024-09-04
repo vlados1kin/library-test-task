@@ -1,4 +1,5 @@
 ﻿using Library.Contracts;
+using Library.Service.IssueUseCases;
 using Library.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +10,22 @@ namespace Library.Presentation.Controllers;
 [Route("api/users")]
 public class UserController : ControllerBase
 {
-    private readonly IServiceManager _service;
+    private readonly GetIssuesByUserIdUseCase _getIssuesByUserIdUseCase;
+    private readonly IUserService _userService;
 
-    public UserController(IServiceManager service)
+    public UserController(
+        IUserService userService, 
+        GetIssuesByUserIdUseCase getIssuesByUserIdUseCase)
     {
-        _service = service;
+        _userService = userService;
+        _getIssuesByUserIdUseCase = getIssuesByUserIdUseCase;
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetUsers()
     {
-        var userDtos = await _service.UserService.GetUsersAsync();
+        var userDtos = await _userService.GetUsersAsync();
         return Ok(userDtos);
     }
 
@@ -28,7 +33,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = "AdminAndSelfOnly")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
-        var userDto = await _service.UserService.GetUserByIdAsync(id);
+        var userDto = await _userService.GetUserByIdAsync(id);
         return Ok(userDto);
     }
 
@@ -36,24 +41,24 @@ public class UserController : ControllerBase
     [Authorize(Policy = "AdminAndSelfOnly")]
     public async Task<IActionResult> GetIssuesByUserId([FromRoute] Guid id)
     {
-        var issueDtos = await _service.IssueService.GetIssuesByUserIdAsync(id, trackChanges: false);
+        var issueDtos = await _getIssuesByUserIdUseCase.ExecuteAsync(id, trackChanges: false);
         return Ok(issueDtos);
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] UserForAuthenticationDto userForAuthenticationDto)
     {
-        if (!await _service.UserService.ValidateUser(userForAuthenticationDto))
+        if (!await _userService.ValidateUser(userForAuthenticationDto))
             return Unauthorized();
 
-        var tokenDto = await _service.UserService.GenerateToken(populateExp: true);
+        var tokenDto = await _userService.GenerateToken(populateExp: true);
         return Ok(tokenDto);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
     {
-        var result = await _service.UserService.RegisterUser(userForRegistrationDto);
+        var result = await _userService.RegisterUser(userForRegistrationDto);
         if (result.Succeeded) 
             return StatusCode(201);
         foreach (var error in result.Errors)
@@ -64,7 +69,7 @@ public class UserController : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody]TokenDto tokenDto)
     {
-        var tokenDtoToReturn = await _service.UserService.RefreshToken(tokenDto);
+        var tokenDtoToReturn = await _userService.RefreshToken(tokenDto);
         return Ok(tokenDtoToReturn);
     }
 }

@@ -5,6 +5,7 @@ using Library.Domain.Exceptions;
 using Library.Domain.Models;
 using Library.Domain.Settings;
 using Library.Service;
+using Library.Service.AuthorUseCases;
 using Library.Shared.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,11 @@ namespace Library.Repository.Tests;
 public class AuthorServiceTests
 {
     private readonly RepositoryContext _context;
-    private readonly IAuthorService _authorService;
+    private readonly GetAuthorsUseCase _getAuthorsUseCase;
+    private readonly GetAuthorByIdUseCase _getAuthorByIdUseCase;
+    private readonly CreateAuthorUseCase _createAuthorUseCase;
+    private readonly UpdateAuthorUseCase _updateAuthorUseCase;
+    private readonly DeleteAuthorUseCase _deleteAuthorUseCase;
 
     public AuthorServiceTests()
     {
@@ -28,9 +33,12 @@ public class AuthorServiceTests
         var mapper = configuration.CreateMapper();
 
         IRepositoryManager repositoryManager = new RepositoryManager(_context);
-
-        _authorService = new AuthorService(repositoryManager, mapper);
-
+        _getAuthorsUseCase = new GetAuthorsUseCase(repositoryManager, mapper);
+        _getAuthorByIdUseCase = new GetAuthorByIdUseCase(repositoryManager, mapper);
+        _createAuthorUseCase = new CreateAuthorUseCase(repositoryManager, mapper);
+        _updateAuthorUseCase = new UpdateAuthorUseCase(repositoryManager, mapper);
+        _deleteAuthorUseCase = new DeleteAuthorUseCase(repositoryManager);
+        
         _context.Database.EnsureCreated();
     }
 
@@ -46,7 +54,7 @@ public class AuthorServiceTests
         _context.Authors.AddRange(author1, author2);
         await _context.SaveChangesAsync();
 
-        var result = await _authorService.GetAuthorsAsync(authorParameters, trackChanges: false);
+        var result = await _getAuthorsUseCase.ExecuteAsync(authorParameters, trackChanges: false);
 
         Assert.NotNull(result.authorDtos);
         Assert.Equal(2, result.authorDtos.Count());
@@ -59,7 +67,7 @@ public class AuthorServiceTests
         _context.Authors.Add(author);
         await _context.SaveChangesAsync();
 
-        var result = await _authorService.GetAuthorById(author.Id, trackChanges: false);
+        var result = await _getAuthorByIdUseCase.ExecuteAsync(author.Id, trackChanges: false);
 
         Assert.NotNull(result);
         Assert.Equal("John", result.FirstName);
@@ -71,7 +79,7 @@ public class AuthorServiceTests
     {
         var authorId = Guid.NewGuid();
 
-        await Assert.ThrowsAsync<AuthorNotFoundException>(async () => await _authorService.GetAuthorById(authorId, trackChanges: false));
+        await Assert.ThrowsAsync<AuthorNotFoundException>(async () => await _getAuthorByIdUseCase.ExecuteAsync(authorId, trackChanges: false));
     }
 
     [Fact]
@@ -79,7 +87,7 @@ public class AuthorServiceTests
     {
         var authorForCreation = new AuthorForCreationDto { FirstName = "New", LastName = "Author", Country = "Country 1", Birthday = new DateOnly(1990, 1, 1) };
 
-        var createdAuthor = await _authorService.CreateAuthorAsync(authorForCreation);
+        var createdAuthor = await _createAuthorUseCase.ExecuteAsync(authorForCreation);
 
         var authorInDb = await _context.Authors.FindAsync(createdAuthor.Id);
         Assert.NotNull(authorInDb);
@@ -96,7 +104,7 @@ public class AuthorServiceTests
 
         var authorForUpdate = new AuthorForUpdateDto { FirstName = "Updated", LastName = "Author", Country = "Updated Country", Birthday = new DateOnly(1990, 1, 1) };
 
-        await _authorService.UpdateAuthorAsync(author.Id, authorForUpdate, trackChanges: true);
+        await _updateAuthorUseCase.ExecuteAsync(author.Id, authorForUpdate, trackChanges: true);
 
         var updatedAuthor = await _context.Authors.FindAsync(author.Id);
         Assert.NotNull(updatedAuthor);
@@ -112,7 +120,7 @@ public class AuthorServiceTests
         _context.Authors.Add(author);
         await _context.SaveChangesAsync();
 
-        await _authorService.DeleteAuthorAsync(author.Id, trackChanges: true);
+        await _deleteAuthorUseCase.ExecuteAsync(author.Id, trackChanges: true);
 
         var authorInDb = await _context.Authors.FindAsync(author.Id);
         Assert.Null(authorInDb);

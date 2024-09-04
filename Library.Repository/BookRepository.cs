@@ -8,8 +8,11 @@ namespace Library.Repository;
 
 public class BookRepository : RepositoryBase<Book>, IBookRepository
 {
+    private readonly RepositoryContext _context;
+    
     public BookRepository(RepositoryContext context) : base(context)
     {
+        _context = context;
     }
 
     public async Task<PagedList<Book>> GetBooksAsync(BookParameters bookParameters, bool trackChanges)
@@ -27,7 +30,5 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
     public async Task<Book> GetBookByIsbnAsync(string isbn, bool trackChanges)
         => await FindByCondition(b => b.ISBN.Equals(isbn), trackChanges).SingleOrDefaultAsync();
 
-    public void CreateBook(Book book) => Create(book);
-
-    public void DeleteBook(Book book) => Delete(book);
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }

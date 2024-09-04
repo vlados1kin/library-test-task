@@ -2,11 +2,9 @@
 
 namespace Library.Contracts;
 
-public interface IIssueRepository
+public interface IIssueRepository : IRepositoryBase<Issue>
 {
     Task<IEnumerable<Issue>> GetIssuesAsync(bool trackChanges);
     Task<IEnumerable<Issue>> GetIssuesByUserIdAsync(Guid id, bool trackChanges);
     Task<Issue> GetIssueByIdAsync(Guid id, bool trackChanges);
-    void CreateIssue(Issue issue);
-    void DeleteIssue(Issue issue);
 }

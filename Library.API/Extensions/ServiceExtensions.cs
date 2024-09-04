@@ -1,8 +1,14 @@
 ﻿using System.Text;
 using Library.Contracts;
 using Library.Domain.Models;
+using Library.Domain.Settings;
 using Library.Repository;
 using Library.Service;
+using Library.Service.AuthorUseCases;
+using Library.Service.BookUseCases;
+using Library.Service.GenreUseCases;
+using Library.Service.ImageUseCases;
+using Library.Service.IssueUseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +33,51 @@ public static class ServiceExtensions
         => services.AddDbContext<RepositoryContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
 
+    public static void ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<ImageSettings>(configuration.GetSection("ImageSettings"));
+    }
+
     public static void ConfigureRepositoryManager(this IServiceCollection services)
         => services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-    public static void ConfigureServiceManager(this IServiceCollection services)
-        => services.AddScoped<IServiceManager, ServiceManager>();
+    public static void ConfigureServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
+    }
+
+    public static void ConfigureUseCases(this IServiceCollection services)
+    {
+        services.AddScoped<GetAuthorsUseCase>();
+        services.AddScoped<GetAuthorByIdUseCase>();
+        services.AddScoped<CreateAuthorUseCase>();
+        services.AddScoped<UpdateAuthorUseCase>();
+        services.AddScoped<DeleteAuthorUseCase>();
+
+        services.AddScoped<GetBooksUseCase>();
+        services.AddScoped<GetBookByIdUseCase>();
+        services.AddScoped<GetBookByIsbnUseCase>();
+        services.AddScoped<GetBooksByAuthorIdUseCase>();
+        services.AddScoped<CreateBookUseCase>();
+        services.AddScoped<UpdateBookUseCase>();
+        services.AddScoped<DeleteBookUseCase>();
+
+        services.AddScoped<GetGenresUseCase>();
+        services.AddScoped<GetGenreByIdUseCase>();
+        services.AddScoped<CreateGenreUseCase>();
+        services.AddScoped<UpdateGenreUseCase>();
+        services.AddScoped<DeleteGenreUseCase>();
+
+        services.AddScoped<DownloadImageUseCase>();
+        services.AddScoped<UploadImageUseCase>();
+        
+        services.AddScoped<GetIssuesUseCase>();
+        services.AddScoped<GetIssuesByUserIdUseCase>();
+        services.AddScoped<GetIssueByIdUseCase>();
+        services.AddScoped<CreateIssueUseCase>();
+        services.AddScoped<UpdateIssueUseCase>();
+        services.AddScoped<DeleteIssueUseCase>();
+    }
 
     public static void ConfigureSwagger(this IServiceCollection services)
     {
@@ -39,7 +85,7 @@ public static class ServiceExtensions
         {
             s.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Library API", 
+                Title = "Library API",
                 Version = "v1",
                 Description = "Library API for a traineeship",
                 Contact = new OpenApiContact
@@ -49,7 +95,7 @@ public static class ServiceExtensions
                     Url = new Uri("https://t.me/vlados1kin"),
                 },
             });
-            
+
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -58,7 +104,7 @@ public static class ServiceExtensions
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer"
             });
-            
+
             s.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {
                 {
@@ -74,13 +120,12 @@ public static class ServiceExtensions
                     new List<string>()
                 }
             });
-
         });
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<User, IdentityRole<Guid>>(o => 
+        var builder = services.AddIdentity<User, IdentityRole<Guid>>(o =>
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;

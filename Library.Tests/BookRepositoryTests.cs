@@ -110,7 +110,7 @@ public class BookRepositoryTests
     {
         var book = new Book { Id = Guid.NewGuid(), ISBN = "123456", Name = "New Book", AuthorId = Guid.NewGuid() };
 
-        _bookRepository.CreateBook(book);
+        _bookRepository.Create(book);
         await _context.SaveChangesAsync();
 
         var createdBook = await _context.Books.FindAsync(book.Id);
@@ -126,7 +126,7 @@ public class BookRepositoryTests
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
 
-        _bookRepository.DeleteBook(book);
+        _bookRepository.Delete(book);
         await _context.SaveChangesAsync();
 
         var deletedBook = await _context.Books.FindAsync(book.Id);

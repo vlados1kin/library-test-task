@@ -18,8 +18,4 @@ public class IssueRepository : RepositoryBase<Issue>, IIssueRepository
 
     public async Task<Issue> GetIssueByIdAsync(Guid id, bool trackChanges)
         => await FindByCondition(i => i.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
-    
-    public void CreateIssue(Issue issue) => Create(issue);
-
-    public void DeleteIssue(Issue issue) => Delete(issue);
 }

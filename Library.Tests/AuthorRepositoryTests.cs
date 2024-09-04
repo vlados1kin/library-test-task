@@ -74,7 +74,7 @@ public class AuthorRepositoryTests
             Birthday = new DateOnly(2020, 1, 1)
         };
 
-        _authorRepository.CreateAuthor(author);
+        _authorRepository.Create(author);
         await _context.SaveChangesAsync();
 
         var createdAuthor = await _context.Authors.FindAsync(id);
@@ -100,7 +100,7 @@ public class AuthorRepositoryTests
         _context.Authors.Add(author);
         await _context.SaveChangesAsync();
 
-        _authorRepository.DeleteAuthor(author);
+        _authorRepository.Delete(author);
         await _context.SaveChangesAsync();
 
         var deletedAuthor = await _context.Authors.FindAsync(authorId);

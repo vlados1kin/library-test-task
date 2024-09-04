@@ -16,8 +16,4 @@ public class GenreRepository : RepositoryBase<Genre>, IGenreRepository
 
     public async Task<Genre> GetGenreByIdAsync(Guid id, bool trackChanges)
         => await FindByCondition(g => g.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
-
-    public void CreateGenre(Genre genre) => Create(genre);
-
-    public void DeleteGenre(Genre genre) => Delete(genre);
 }
